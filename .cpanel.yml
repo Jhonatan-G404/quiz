@@ -1,9 +1,8 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/digipren/public_html/
     - export DEPLOYPATH=/home/digipren/public_html
-    - /bin/cp -R app bootstrap config database public resources routes storage artisan composer.json composer.lock package.json vite.config.js $DEPLOYPATH
+    - /bin/cp -R app bootstrap config database public resources routes storage tests .env artisan composer.json composer.lock package.json vite.config.js tailwind.config.js postcss.config.js phpunit.xml README.md $DEPLOYPATH
     - cd $DEPLOYPATH
     - /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader
     - chmod -R 775 storage bootstrap/cache
