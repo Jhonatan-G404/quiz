@@ -13,12 +13,15 @@ class QuestionController extends Controller
         $answers = $question->answers()->with('user')->get(); // Fetch answers with user details
         return view('admin.questions.answers', ['question' => $question, 'answers' => $answers]);
     }
-	
-	public function index()
+
+    public function index(Request $request)
     {
-        $questions = Question::all();
-        return view('admin.dashboard', ['questions' => $questions]); // Using admin.dashboard view
+        $search = $request->input('search');
+        $questions = Question::where('title', 'like', "%{$search}%")
+            ->paginate(5);
+        return view('admin.dashboard', compact('questions', 'search'));
     }
+
 
     public function create()
     {
