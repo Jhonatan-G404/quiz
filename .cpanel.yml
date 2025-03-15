@@ -1,8 +1,22 @@
 ---
 deployment:
   tasks:
+    # 1. Set lokasi deployment
     - export DEPLOYPATH=/home/digipren/public_html
-    - /bin/cp -R app bootstrap config database public resources routes storage tests .env artisan composer.json composer.lock package.json vite.config.js tailwind.config.js postcss.config.js phpunit.xml README.md $DEPLOYPATH
+
+    # 2. Copy file utama Laravel ke public_html
+    - /bin/cp -R app bootstrap config database public resources routes storage artisan composer.json composer.lock package.json vite.config.js $DEPLOYPATH
+
+    # 3. Pindah ke public_html
     - cd $DEPLOYPATH
+
+    # 4. Install dependensi Composer
     - /opt/cpanel/composer/bin/composer install --no-dev --optimize-autoloader
+
+    # 5. Setel permission folder storage & cache
     - chmod -R 775 storage bootstrap/cache
+    
+    # 8. Clear cache
+    - php artisan config:clear
+    - php artisan cache:clear
+    - php artisan view:clear
