@@ -1,0 +1,17 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Redirect semua request ke public/index.php
+    RewriteCond %{REQUEST_URI} !^public/
+    RewriteRule ^(.*)$ public/$1 [L]
+
+    # Pastikan semua permintaan masuk ke index.php jika file/folder tidak ditemukan
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Mengaktifkan akses CORS agar file JS/CSS bisa dimuat
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+</IfModule>
